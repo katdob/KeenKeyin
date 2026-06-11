@@ -1,0 +1,7 @@
+FROM postgres:16-alpine
+
+ENV POSTGRES_USER=keenkeyin
+ENV POSTGRES_PASSWORD=keenkeyin
+ENV POSTGRES_DB=keenkeyin
+
+EXPOSE 5432

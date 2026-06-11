@@ -1,0 +1,46 @@
+services:
+  database:
+    build:
+      context: ./database
+    networks:
+      - backend-database
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U keenkeyin -d keenkeyin"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ./backend
+    networks:
+      - frontend-backend
+      - backend-database
+    environment:
+      PORT: "3000"
+      DATABASE_URL: postgresql://keenkeyin:keenkeyin@database:5432/keenkeyin
+    depends_on:
+      database:
+        condition: service_healthy
+
+  frontend:
+    build:
+      context: ./frontend
+    networks:
+      - frontend-backend
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
+
+networks:
+  frontend-backend:
+    name: keenkeyin-frontend-backend
+  backend-database:
+    name: keenkeyin-backend-database
+    internal: true
+
+volumes:
+  postgres_data:
