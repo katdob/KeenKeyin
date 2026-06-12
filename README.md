@@ -1,4 +1,4 @@
-# Welcome to KeenKeyin! 
+# Welcome to Keen Key-in! 
 
 Keen Key-in is the online presence for a password manager application. 
 
